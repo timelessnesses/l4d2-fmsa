@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"time"
@@ -54,6 +55,7 @@ func initialize() {
 		}
 	})
 	button.OnCommand(func() {
+		fmt.Println("Called")
 		handle(w, pack, state)
 	})
 	pack.AddWidgets(
@@ -88,7 +90,7 @@ func report(w *Window, msg string, pack *tk.PackLayout) {
 	)
 	// delete the label after 5 seconds
 	go func() {
-		time.Sleep(5)
+		time.Sleep(5 * 1000)
 		f.Destroy()
 	}()
 }

@@ -16,26 +16,35 @@ var banned []byte
 var global_database database.Database
 
 func Init() {
-	_global_database, err := database.CreateIfNotExistsDatabase("fmsa.db")
+	_, err := os.Stat("fmsa.db")
 	if err != nil {
-		panic(err)
+		_global_database, err := database.CreateIfNotExistsDatabase("fmsa.db")
+		if err != nil {
+			panic(err)
+		}
+		global_database = *_global_database
+		global_database.Execute(`
+			CREATE TABLE IF NOT EXISTS banned(ip TEXT, reason STRING)
+		`)
+		add_copy_of_banned_servers()
+	} else {
+		_global_database, err := database.CreateIfNotExistsDatabase("fmsa.db")
+		if err != nil {
+			panic(err)
+		}
+		global_database = *_global_database
 	}
-	global_database = *_global_database
-	global_database.Execute(`
-	CREATE TABLE IF NOT EXISTS banned(ip TEXT, reason STRING)
-	`)
-	add_copy_of_banned_servers()
+	// check if fmsa.db is already exists so we don't overwrite it
 }
 
 func add_copy_of_banned_servers() {
-	fmt.Println(banned)
 	value, e1 := parser.ParseRawFMSA(banned)
 	if e1 != nil {
 		panic(e1)
 	}
-	fmt.Println("yo we got ", value)
 	for _, ip := range value.IPs {
-		global_database.Execute("INSERT INTO banned VALUES (" + ip.IP + "," + ip.Type_banned + ")")
+		fmt.Println("Adding " + ip.IP + " to firewall")
+		global_database.Execute("INSERT INTO banned VALUES (\"" + ip.IP + "\",\"" + ip.Type_banned + "\")")
 	}
 }
 
@@ -77,4 +86,8 @@ func is_elevated() bool {
 	// try access PHYSICALDRIVE0 something
 	_, err := os.Open("\\\\.\\PHYSICALDRIVE0")
 	return err == nil
+}
+
+func Cleanup() {
+	global_database.Close()
 }

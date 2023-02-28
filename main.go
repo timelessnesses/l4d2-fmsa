@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	"os/signal"
 	"time"
 
 	"github.com/timelessnesses/l4d2-fmsa/firewall"
@@ -13,6 +15,14 @@ type Window struct {
 }
 
 func main() {
+	e := make(chan os.Signal, 1)
+	signal.Notify(e, os.Interrupt)
+	go func() {
+		for range e {
+			firewall.Cleanup()
+			os.Exit(0)
+		}
+	}()
 	tk.MainLoop(func() {
 		initialize()
 	})
@@ -60,6 +70,10 @@ func initialize() {
 		box,
 		button,
 	)
+
+	// might as well detect if app is exited
+
+	w.OnClose(cleanup)
 
 	w.ShowNormal()
 }
@@ -132,10 +146,15 @@ func handle(w *Window, pack *tk.PackLayout, state bool) {
 func get_firewalled_ip(w *Window) *tk.Label {
 	assemble := "IP Addresses that are currently firewalled:\n"
 	for _, j := range firewall.GetFirewallIPs().IPs {
-		assemble += j.IP + "Firewalled Because: " + j.Type_banned + "\n"
+		assemble += j.IP + " Firewalled Because: " + j.Type_banned + "\n"
 	}
 	return tk.NewLabel(
 		w,
 		assemble,
 	)
+}
+
+func cleanup() bool {
+	firewall.Cleanup()
+	return true
 }

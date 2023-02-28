@@ -15,16 +15,28 @@ func CreateIfNotExistsDatabase(name string) (*Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer database.Close()
 	return &Database{db: database}, nil
 }
 
 type SQLStatement = string
 
 func (self *Database) Execute(statement SQLStatement) error {
-	_, err := self.db.Exec(statement)
+	ctx, err := self.db.Begin()
 	if err != nil {
-		return err
+		panic(err)
+	}
+	s, err := ctx.Prepare(statement)
+	if err != nil {
+		panic(err)
+	}
+	defer s.Close()
+	_, err = s.Exec()
+	if err != nil {
+		panic(err)
+	}
+	err = ctx.Commit()
+	if err != nil {
+		panic(err)
 	}
 	return nil
 }
@@ -46,4 +58,8 @@ func (self *Database) Fetch(statement SQLStatement) ([][]string, error) {
 		result = append(result, []string{IP, Type_banned})
 	}
 	return result, nil
+}
+
+func (self *Database) Close() {
+	defer self.db.Close()
 }

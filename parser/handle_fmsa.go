@@ -11,3 +11,11 @@ func ParseFMSA(path string) (*BannedIPs, *CannotReadFileError, *CannotParseFMSAE
 	}
 	return s, nil, nil
 }
+
+func ParseRawFMSA(data []byte) (*BannedIPs, *CannotParseFMSAError) {
+	s, e := _ParseJson(data)
+	if e != nil {
+		return nil, &CannotParseFMSAError{}
+	}
+	return s, nil
+}

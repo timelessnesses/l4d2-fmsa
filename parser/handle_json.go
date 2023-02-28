@@ -29,7 +29,7 @@ func _ParseJson(data []byte) (*BannedIPs, *CannotParseJsonError) {
 	for _, ip := range v.GetArray("BannedIPs") {
 		p.IPs = append(p.IPs, IP{
 			IP:          string(ip.GetStringBytes("IP")),
-			type_banned: string(ip.GetStringBytes("type_banned")),
+			Type_banned: string(ip.GetStringBytes("type_banned")),
 		})
 	}
 	return &p, nil

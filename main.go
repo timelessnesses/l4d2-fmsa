@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/timelessnesses/l4d2-fmsa/firewall"
 	"github.com/timelessnesses/l4d2-fmsa/parser"
 	"github.com/visualfc/atk/tk"
 )
@@ -18,6 +19,7 @@ func main() {
 }
 
 func initialize() {
+	firewall.Init()
 	w := &Window{}
 	w.Window = tk.RootWindow()
 	w.SetTitle("L4D2 Fuck Modded Server")
@@ -48,7 +50,7 @@ func initialize() {
 		tk.NewLabel(
 			w,
 			"Welcome to L4D2 MSF Application!",
-			tk.LabelFrameAttrPadding(tk.Pad{20, 20}),
+			tk.LabelFrameAttrPadding(tk.Pad{X: 20, Y: 20}),
 		),
 		get_firewalled_ip(w),
 		tk.NewLabel(
@@ -120,7 +122,7 @@ func handle(w *Window, pack *tk.PackLayout, state bool) {
 
 		go func() {
 			for _, ip := range res.IPs {
-				firewall.AddFirewallIP(ip)
+				firewall.AddFirewallIP(ip.IP, ip.Type_banned)
 			}
 		}()
 
@@ -129,7 +131,11 @@ func handle(w *Window, pack *tk.PackLayout, state bool) {
 
 func get_firewalled_ip(w *Window) *tk.Label {
 	assemble := "IP Addresses that are currently firewalled:\n"
-	for _, j := range firewall.GetFirewallIPs() {
-		assemble += j.ip + "Firewalled Because: " + j.type_reason + "\n"
+	for _, j := range firewall.GetFirewallIPs().IPs {
+		assemble += j.IP + "Firewalled Because: " + j.Type_banned + "\n"
 	}
+	return tk.NewLabel(
+		w,
+		assemble,
+	)
 }

@@ -6,5 +6,5 @@ type BannedIPs struct {
 
 type IP struct {
 	IP          string
-	type_banned string
+	Type_banned string
 }

@@ -1,0 +1,137 @@
+Exception 0xc0000005 0x0 0x8 0x7fff8553be44
+PC=0x7fff8553be44
+signal arrived during external code execution
+
+runtime.cgocall(0x7ff732f87600, 0x7ff73334cfc0)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/cgocall.go:158 +0x4a fp=0xc00007ddb8 sp=0xc00007dd80 pc=0x7ff732f2496a
+syscall.SyscallN(0x7fff854fe800?, {0xc00007de50?, 0x3?, 0x0?})
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/syscall_windows.go:557 +0x109 fp=0xc00007de30 sp=0xc00007ddb8 pc=0x7ff732f82829
+syscall.Syscall(0xc000074c30?, 0xc000028980?, 0x7ff733228fb0?, 0xc0000289c0?, 0xc00007dea8?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/syscall_windows.go:495 +0x3b fp=0xc00007de78 sp=0xc00007de30 pc=0x7ff732f8253b
+github.com/visualfc/atk/tk/interp.Tk_MainLoop()
+        C:/Users/moopi/go/pkg/mod/github.com/visualfc/atk@v1.2.2/tk/interp/zinterp_windows.go:292 +0x48 fp=0xc00007deb8 sp=0xc00007de78 pc=0x7ff73306cea8
+github.com/visualfc/atk/tk/interp.MainLoop(0x7ff7331f6118)
+        C:/Users/moopi/go/pkg/mod/github.com/visualfc/atk@v1.2.2/tk/interp/interp_windows.go:143 +0x4f fp=0xc00007dec8 sp=0xc00007deb8 pc=0x7ff733067ccf
+github.com/visualfc/atk/tk.MainLoop(0xc0000520c0?)
+        C:/Users/moopi/go/pkg/mod/github.com/visualfc/atk@v1.2.2/tk/tk.go:108 +0x77 fp=0xc00007df38 sp=0xc00007dec8 pc=0x7ff733083917
+main.main()
+        F:/Desktop/l4d2-fmsa/main.go:31 +0xa7 fp=0xc00007df80 sp=0xc00007df38 pc=0x7ff733091dc7
+runtime.main()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:250 +0x1fe fp=0xc00007dfe0 sp=0xc00007df80 pc=0x7ff732f5b4de
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00007dfe8 sp=0xc00007dfe0 pc=0x7ff732f85d41
+
+goroutine 2 [force gc (idle)]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc00003bfb0 sp=0xc00003bf90 pc=0x7ff732f5b876
+runtime.goparkunlock(...)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:369
+runtime.forcegchelper()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:302 +0xb1 fp=0xc00003bfe0 sp=0xc00003bfb0 pc=0x7ff732f5b711
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00003bfe8 sp=0xc00003bfe0 pc=0x7ff732f85d41
+created by runtime.init.6
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:290 +0x25
+
+goroutine 3 [GC sweep wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc00003df90 sp=0xc00003df70 pc=0x7ff732f5b876
+runtime.goparkunlock(...)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:369
+runtime.bgsweep(0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgcsweep.go:278 +0x8e fp=0xc00003dfc8 sp=0xc00003df90 pc=0x7ff732f45e0e
+runtime.gcenable.func1()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgc.go:178 +0x26 fp=0xc00003dfe0 sp=0xc00003dfc8 pc=0x7ff732f3a9a6
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00003dfe8 sp=0xc00003dfe0 pc=0x7ff732f85d41
+created by runtime.gcenable
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgc.go:178 +0x6b
+
+goroutine 4 [GC scavenge wait]:
+runtime.gopark(0xc000046000?, 0x7ff733226128?, 0x1?, 0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc00004df70 sp=0xc00004df50 pc=0x7ff732f5b876
+runtime.goparkunlock(...)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:369
+runtime.(*scavengerState).park(0x7ff73334c6c0)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgcscavenge.go:389 +0x53 fp=0xc00004dfa0 sp=0xc00004df70 pc=0x7ff732f43e93
+runtime.bgscavenge(0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgcscavenge.go:617 +0x45 fp=0xc00004dfc8 sp=0xc00004dfa0 pc=0x7ff732f44485
+runtime.gcenable.func2()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgc.go:179 +0x26 fp=0xc00004dfe0 sp=0xc00004dfc8 pc=0x7ff732f3a946
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00004dfe8 sp=0xc00004dfe0 pc=0x7ff732f85d41
+created by runtime.gcenable
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mgc.go:179 +0xaa
+
+goroutine 5 [finalizer wait]:
+runtime.gopark(0x7ff73334cd00?, 0x7ff73317d8c0?, 0x0?, 0x0?, 0xc00003ff70?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc00003fe28 sp=0xc00003fe08 pc=0x7ff732f5b876
+runtime.goparkunlock(...)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:369
+runtime.runfinq()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mfinal.go:180 +0x10f fp=0xc00003ffe0 sp=0xc00003fe28 pc=0x7ff732f39aaf
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00003ffe8 sp=0xc00003ffe0 pc=0x7ff732f85d41
+created by runtime.createfing
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/mfinal.go:157 +0x45
+
+goroutine 6 [syscall]:
+runtime.notetsleepg(0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/lock_sema.go:294 +0x3c fp=0xc00004ffa0 sp=0xc00004ff58 pc=0x7ff732f2d07c
+os/signal.signal_recv()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/sigqueue.go:152 +0x2f fp=0xc00004ffc0 sp=0xc00004ffa0 pc=0x7ff732f8196f
+os/signal.loop()
+        C:/Users/moopi/scoop/apps/go/current/src/os/signal/signal_unix.go:23 +0x19 fp=0xc00004ffe0 sp=0xc00004ffc0 pc=0x7ff732ffeb79
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00004ffe8 sp=0xc00004ffe0 pc=0x7ff732f85d41
+created by os/signal.Notify.func1.1
+        C:/Users/moopi/scoop/apps/go/current/src/os/signal/signal.go:151 +0x2a
+
+goroutine 7 [chan receive]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc000049ef0 sp=0xc000049ed0 pc=0x7ff732f5b876
+runtime.chanrecv(0xc0000520c0, 0xc000049fc0, 0x1)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/chan.go:583 +0x49b fp=0xc000049f80 sp=0xc000049ef0 pc=0x7ff732f27a7b
+runtime.chanrecv2(0x0?, 0x0?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/chan.go:447 +0x18 fp=0xc000049fa8 sp=0xc000049f80 pc=0x7ff732f275b8
+main.main.func1()
+        F:/Desktop/l4d2-fmsa/main.go:26 +0x4e fp=0xc000049fe0 sp=0xc000049fa8 pc=0x7ff733091e2e
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc000049fe8 sp=0xc000049fe0 pc=0x7ff732f85d41
+created by main.main
+        F:/Desktop/l4d2-fmsa/main.go:25 +0x9b
+
+goroutine 8 [select]:
+runtime.gopark(0xc00004bf88?, 0x2?, 0x11?, 0x0?, 0xc00004bf84?)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/proc.go:363 +0xd6 fp=0xc00004be10 sp=0xc00004bdf0 pc=0x7ff732f5b876
+runtime.selectgo(0xc00004bf88, 0xc00004bf80, 0x0?, 0x0, 0x0?, 0x1)
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/select.go:328 +0x7dc fp=0xc00004bf50 sp=0xc00004be10 pc=0x7ff732f69c1c
+database/sql.(*DB).connectionOpener(0xc000026750, {0x7ff733227970, 0xc0000509c0})
+        C:/Users/moopi/scoop/apps/go/current/src/database/sql/sql.go:1224 +0x8d fp=0xc00004bfb8 sp=0xc00004bf50 pc=0x7ff73300bb4d
+database/sql.OpenDB.func1()
+        C:/Users/moopi/scoop/apps/go/current/src/database/sql/sql.go:792 +0x2e fp=0xc00004bfe0 sp=0xc00004bfb8 pc=0x7ff733009f2e
+runtime.goexit()
+        C:/Users/moopi/scoop/apps/go/current/src/runtime/asm_amd64.s:1594 +0x1 fp=0xc00004bfe8 sp=0xc00004bfe0 pc=0x7ff732f85d41
+created by database/sql.OpenDB
+        C:/Users/moopi/scoop/apps/go/current/src/database/sql/sql.go:792 +0x18d
+rax     0x100
+rbx     0x10d012e
+rcx     0x0
+rdi     0x211fec83eb0
+rsi     0x211fec54170
+rbp     0x0
+rsp     0x3c685ff150
+r8      0x10d
+r9      0x8
+r10     0x0
+r11     0x3c685ff120
+r12     0x4
+r13     0x10d
+r14     0x100
+r15     0x1
+rip     0x7fff8553be44
+rflags  0x10202
+cs      0x33
+fs      0x53
+gs      0x2b
+exit status 2

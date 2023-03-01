@@ -4,10 +4,11 @@ import (
 	_ "embed"
 	"fmt"
 	"os"
-	"os/exec"
+	"strings"
 
 	"github.com/timelessnesses/l4d2-fmsa/database"
 	"github.com/timelessnesses/l4d2-fmsa/parser"
+	"golang.org/x/sys/windows"
 )
 
 //go:embed banned.fmsa
@@ -62,31 +63,36 @@ func GetFirewallIPs() *parser.BannedIPs {
 	return &p
 }
 
-func AddFirewallIP(ip string, reason string) error {
-	// This command requires elevation. What should I do?
-	// Where can I just you know, send a UAC request in a middle of the program?
-	// Or maybe I could try elevate it at the start
-	// I mean I could manifest it but
-	// golang.org/x/sys/windows does have elevated process for this specific use case
-	// eh whatever I am just going to require user to elevate me first!
-
-	cmd := exec.Command(
-		"netsh advfirewall firewall add rule name=\"L4D2 FMSA " + ip + "\" dir=in action=block remoteip=" + ip + " enable=yes description=\"L4D2 FMSA " + reason + "\"",
-	)
-	if !is_elevated() {
-		panic("You need to elevate this program first!")
+func AddIPs(ips []parser.IP) {
+	required := []parser.IP{}
+	for _, ip := range ips {
+		// check if the ip already in the db
+		res, err := global_database.Fetch("SELECT * FROM banned WHERE ip=\"" + ip.IP + "\"")
+		if err != nil {
+			panic(err)
+		}
+		if len(res) <= 0 {
+			global_database.Execute("INSERT INTO banned VALUES (\"" + ip.IP + "\",\"" + ip.Type_banned + "\")")
+			required = append(required, ip)
+		}
 	}
-	if err := cmd.Run(); err != nil {
-		return err
+	// build command
+	done := []string{}
+	for _, ip := range required {
+		done = append(done, "netsh advfirewall firewall add rule name=\"FMSA "+ip.IP+"\" dir=in action=block remoteip="+ip.IP)
 	}
-	return nil
+	j := strings.Join(done, " && ")
+	err := windows.ShellExecute(0, windows.StringToUTF16Ptr("runas"), windows.StringToUTF16Ptr("cmd"), windows.StringToUTF16Ptr("/c "+j), nil, 1)
+	if err != nil {
+		println("Error: " + err.Error())
+	}
 }
 
-func is_elevated() bool {
-	// try access PHYSICALDRIVE0 something
-	_, err := os.Open("\\\\.\\PHYSICALDRIVE0")
-	return err == nil
-}
+// func is_elevated() bool {
+// 	// try access PHYSICALDRIVE0 something
+// 	_, err := os.Open("\\\\.\\PHYSICALDRIVE0")
+// 	return err == nil
+// }
 
 func Cleanup() {
 	global_database.Close()

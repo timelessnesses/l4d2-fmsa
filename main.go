@@ -154,8 +154,6 @@ func handle(w *Window, pack *tk.PackLayout, state bool, text_box string) {
 		}
 		firewall.AddIPs(res.IPs) // want this to be blocked so done status can work properly
 
-		s.SetText(get_firewalled_ip_text())
-
 	} else {
 		a, err := parser.ParseRaw(text_box)
 		if err != nil {
@@ -164,6 +162,8 @@ func handle(w *Window, pack *tk.PackLayout, state bool, text_box string) {
 		firewall.AddIPs(a.IPs)
 	}
 	done(w, pack)
+	s.SetText(get_firewalled_ip_text())
+	pack.Repack()
 }
 
 func done(w *Window, pack *tk.PackLayout) {
@@ -176,6 +176,7 @@ func done(w *Window, pack *tk.PackLayout) {
 	)
 	time.Sleep(3000)
 	j.Destroy()
+	pack.Repack()
 }
 
 func get_firewalled_ip_text() string {
@@ -227,6 +228,7 @@ func remove_ip_from_firewall(w *Window, pack *tk.PackLayout, ip string) {
 	firewall.RemoveIPs(a.IPs)
 	s.SetText(get_firewalled_ip_text())
 	done(w, pack)
+	pack.Repack()
 }
 
 func handle_save(w *Window, pack *tk.PackLayout) {
@@ -258,4 +260,5 @@ func handle_save(w *Window, pack *tk.PackLayout) {
 	}
 	done(w, pack)
 	utils.OpenFileExplorer(path)
+	pack.Repack()
 }

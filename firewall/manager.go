@@ -94,6 +94,19 @@ func AddIPs(ips []parser.IP) {
 // 	return err == nil
 // }
 
+func RemoveIPs([]parser.IP) {
+	// netsh delete firewall rule something
+	done := []string{}
+	for _, ip := range GetFirewallIPs().IPs {
+		done = append(done, "netsh advfirewall firewall delete rule name=\"FMSA "+ip.IP+"\"")
+	}
+	j := strings.Join(done, " && ")
+	err := windows.ShellExecute(0, windows.StringToUTF16Ptr("runas"), windows.StringToUTF16Ptr("cmd"), windows.StringToUTF16Ptr("/c "+j), nil, 1)
+	if err != nil {
+		println("Error: " + err.Error())
+	}
+}
+
 func Cleanup() {
 	global_database.Close()
 }

@@ -3,8 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"os"
-	"os/signal"
 	"strings"
 	"time"
 
@@ -22,14 +20,6 @@ type Window struct {
 var state bool
 
 func main() {
-	e := make(chan os.Signal, 1)
-	signal.Notify(e, os.Interrupt)
-	go func() {
-		for range e {
-			firewall.Cleanup()
-			os.Exit(0)
-		}
-	}()
 	tk.MainLoop(func() {
 		initialize()
 	})
@@ -58,7 +48,7 @@ func initialize() {
 			button.SetText("Add IP(s)")
 			state = false
 		} else {
-			button.SetText("Open Text File")
+			button.SetText("Import IP(s)")
 			state = true
 		}
 	})
@@ -117,10 +107,8 @@ func report(w *Window, msg string, pack *tk.PackLayout) {
 		f,
 	)
 	// delete the label after 5 seconds
-	go func() {
-		time.Sleep(5 * 1000)
-		f.Destroy()
-	}()
+	time.Sleep(3 * 1000)
+	f.Destroy()
 }
 
 func handle(w *Window, pack *tk.PackLayout, state bool, text_box string) {
@@ -169,10 +157,11 @@ func handle(w *Window, pack *tk.PackLayout, state bool, text_box string) {
 		s.SetText(get_firewalled_ip_text())
 
 	} else {
-		_, err := parser.ParseRaw(text_box)
+		a, err := parser.ParseRaw(text_box)
 		if err != nil {
 			report(w, errors.New("CannotParseRawDataError").Error(), pack)
 		}
+		firewall.AddIPs(a.IPs)
 	}
 	done(w, pack)
 }
@@ -185,10 +174,8 @@ func done(w *Window, pack *tk.PackLayout) {
 	pack.AddWidget(
 		j,
 	)
-	go func() {
-		time.Sleep(3000)
-		j.Destroy()
-	}()
+	time.Sleep(3000)
+	j.Destroy()
 }
 
 func get_firewalled_ip_text() string {
@@ -233,7 +220,13 @@ func view_banned_ips_from_firewall() {
 }
 
 func remove_ip_from_firewall(w *Window, pack *tk.PackLayout, ip string) {
-	panic("Not implemented")
+	a, err := parser.ParseRaw(ip)
+	if err != nil {
+		report(w, errors.New("CannotParseRawDataError").Error(), pack)
+	}
+	firewall.RemoveIPs(a.IPs)
+	s.SetText(get_firewalled_ip_text())
+	done(w, pack)
 }
 
 func handle_save(w *Window, pack *tk.PackLayout) {

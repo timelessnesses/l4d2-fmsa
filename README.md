@@ -9,4 +9,4 @@ Go ahead in Release panel and grab the latest version
 ## Building
 
 `go install` and `go build main.go`  
-(Note: this program requires you to install ActiveState' Tk and Tcl. If you are using Windows x64 Operating System, you can grab those in win64-bundle folder and paste it inside your program. But those binaries should be already included in zips.)
+(Note: this program requires you to install ActiveState' Tk and Tcl. If you are using Windows x64 Operating System those zipped files should be ready for you.)

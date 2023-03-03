@@ -28,3 +28,6 @@ fmsa.db
 # ghidra
 *.gpr
 *.rep/
+
+# pdbs
+*.pdb

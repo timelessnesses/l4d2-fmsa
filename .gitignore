@@ -4,7 +4,6 @@
 # Binaries for programs and plugins
 *.exe
 *.exe~
-*.dll
 *.so
 *.dylib
 
@@ -22,3 +21,6 @@ go.work
 
 # test database
 fmsa.db
+
+# zips
+*.zip

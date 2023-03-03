@@ -99,6 +99,7 @@ func RemoveIPs([]parser.IP) {
 	done := []string{}
 	for _, ip := range GetFirewallIPs().IPs {
 		done = append(done, "netsh advfirewall firewall delete rule name=\"FMSA "+ip.IP+"\"")
+		global_database.Execute("DELETE FROM banned WHERE ip=\"" + ip.IP + "\"")
 	}
 	j := strings.Join(done, " && ")
 	err := windows.ShellExecute(0, windows.StringToUTF16Ptr("runas"), windows.StringToUTF16Ptr("cmd"), windows.StringToUTF16Ptr("/c "+j), nil, 1)

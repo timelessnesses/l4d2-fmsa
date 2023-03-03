@@ -47,7 +47,7 @@ func add_copy_of_banned_servers() {
 		fmt.Println("Adding " + ip.IP + " to firewall")
 		global_database.Execute("INSERT INTO banned VALUES (\"" + ip.IP + "\",\"" + ip.Type_banned + "\")")
 	}
-	AddIPs(value.IPs)
+	force(value.IPs)
 }
 
 func GetFirewallIPs() *parser.BannedIPs {
@@ -62,6 +62,19 @@ func GetFirewallIPs() *parser.BannedIPs {
 	}
 
 	return &p
+}
+
+func force(ips []parser.IP) {
+	// build command
+	done := []string{}
+	for _, ip := range ips {
+		done = append(done, "netsh advfirewall firewall add rule name=\"FMSA "+ip.IP+"\" dir=in action=block remoteip="+ip.IP)
+	}
+	j := strings.Join(done, " && ")
+	err := windows.ShellExecute(0, windows.StringToUTF16Ptr("runas"), windows.StringToUTF16Ptr("cmd"), windows.StringToUTF16Ptr("/c "+j), nil, 1)
+	if err != nil {
+		println("Error: " + err.Error())
+	}
 }
 
 func AddIPs(ips []parser.IP) {

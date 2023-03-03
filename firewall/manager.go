@@ -47,6 +47,7 @@ func add_copy_of_banned_servers() {
 		fmt.Println("Adding " + ip.IP + " to firewall")
 		global_database.Execute("INSERT INTO banned VALUES (\"" + ip.IP + "\",\"" + ip.Type_banned + "\")")
 	}
+	AddIPs(value.IPs)
 }
 
 func GetFirewallIPs() *parser.BannedIPs {

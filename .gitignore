@@ -24,3 +24,7 @@ fmsa.db
 
 # zips
 *.zip
+
+# ghidra
+*.gpr
+*.rep/

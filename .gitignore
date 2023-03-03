@@ -31,3 +31,6 @@ fmsa.db
 
 # pdbs
 *.pdb
+
+# regretting add win64-bundle to repo causing linguist to go crazy
+win64-bundle/

@@ -10,3 +10,7 @@ Go ahead in Release panel and grab the latest version
 
 `go install` and `go build main.go`  
 (Note: this program requires you to install ActiveState' Tk and Tcl. If you are using Windows x64 Operating System those zipped files should be ready for you.)
+
+## Note
+
+this is still a windows only project.
